@@ -28,6 +28,8 @@ class goodweConfig :
 	       self.goodwe_system_id = line.replace(self.GOODWE_SYSTEM_ID, '')
 	    if self.GOODWE_USER_ID in line:
 	       self.goodwe_user_id = line.replace(self.GOODWE_USER_ID, '')
+	    if self.GOODWE_PASSWORD in line:
+	       self.goodwe_password = line.replace(self.GOODWE_PASSWORD, '')
 	    if self.PVOUTPUT_SYSTEM_ID in line:
 	       self.pvoutput_system_id = line.replace(self.PVOUTPUT_SYSTEM_ID, '')
 	    if self.PVOUTPUT_API in line:
@@ -44,6 +46,7 @@ class goodweConfig :
       print "Goodwe Login URL: (" + self.goodwe_loginUrl + ")"
       print self.GOODWE_SYSTEM_ID + " (" + self.goodwe_system_id + ")"
       print self.GOODWE_USER_ID + " (" + self.goodwe_user_id + ")"  
+      print self.GOODWE_PASSWORD + " (" + self.goodwe_password + ")"  
       print "PVOutput upload URL: (" + self.pvoutput_url + ")"
       print self.PVOUTPUT_SYSTEM_ID + " (" + self.pvoutput_system_id + ")"
       print self.PVOUTPUT_API + " (" + self.pvoutput_api + ")"
@@ -62,6 +65,13 @@ class goodweConfig :
    # Returns the goodwe_user_id
    #
       return self.goodwe_user_id
+
+
+   #--------------------------------------------------------------------------
+   def get_goodwe_password( self):
+   # Returns the goodwe_password
+   #
+      return self.goodwe_password
 
 
    #--------------------------------------------------------------------------
