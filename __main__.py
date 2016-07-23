@@ -46,7 +46,7 @@ if __name__ == "__main__":
 # objects needed and sets the URL and system IDs. These are read from the
 # config file in ${HOME}/.goodwe2pvoutput
 #
-   home = os.environ['HOME']
+   home = os.path.expanduser('~')
    config = goodweConfig.goodweConfig(home+'/.goodwe2pvoutput')
    config.to_string()
 
