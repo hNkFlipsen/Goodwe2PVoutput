@@ -1,6 +1,7 @@
 class goodweConfig :
    GOODWE_SYSTEM_ID = 'goodwe_system_id'
    GOODWE_USER_ID = 'goodwe_user_id'
+   GOODWE_PASSWORD = 'goodwe_password'
    PVOUTPUT_SYSTEM_ID = 'pvoutput_system_id'
    PVOUTPUT_API = 'pvoutput_api'
    CSV_DIR = 'csv_dir'
