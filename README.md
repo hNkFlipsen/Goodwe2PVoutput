@@ -27,6 +27,8 @@ goodwe_system_id: 'Your Goodwe system ID'
 
 goodwe_user_id: 'Your username on goodwe-power.com'
 
+goodwe_password: 'Your password for goodwe-power.com'
+
 pvoutput_system_id: 'Your PVOutput system ID'
 
 pvoutput_api: 'Your PVOutput API key'
