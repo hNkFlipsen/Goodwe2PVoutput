@@ -47,34 +47,20 @@ if __name__ == "__main__":
 # objects needed and sets the URL and system IDs. These are read from the
 # config file in ${HOME}/.goodwe2pvoutput
 #
-   home = os.path.expanduser('~')
+   home = os.environ['HOME']
    config = goodweConfig.goodweConfig(home+'/.goodwe2pvoutput')
    config.to_string()
 
    goodwe = readGoodwe.readGoodwe( config.get_goodwe_url(), config.get_goodwe_loginUrl(), config.get_goodwe_system_id())
    pvoutput = pvoutput.pvoutput( config.get_pvoutput_url(), config.get_pvoutput_system_id(), config.get_pvoutput_api())
    csv = csvoutput.csvoutput( config.get_csv_dir(), 'Goodwe_PV_data')
-<<<<<<< HEAD
-   process = processData.processData( pvoutput)
-   
-   # Login to Goodwe-power.com
-   goodwe.login( config.get_goodwe_user_id(), config.get_goodwe_password())
-=======
    if config.get_spline_fit():
       process = processData2.processData2( pvoutput)
    else:
       process = processData.processData( pvoutput)
       
-<<<<<<< HEAD
-   # Request password for Goodwe-power.com
-   passwd_text = 'Supply password for ' + str(config.get_goodwe_loginUrl()) + ': '
-   password = getpass.getpass( passwd_text)
-   goodwe.login( config.get_goodwe_user_id(), password)
->>>>>>> refs/remotes/zonoskar/master
-=======
    # Login to Goodwe-power.com
    goodwe.login( config.get_goodwe_user_id(), config.get_goodwe_password())
->>>>>>> refs/remotes/origin/pr/3
 
    # Perform main loop
    mainloop( goodwe, pvoutput, csv, process)
