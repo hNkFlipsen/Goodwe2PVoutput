@@ -65,11 +65,16 @@ if __name__ == "__main__":
    else:
       process = processData.processData( pvoutput)
       
+<<<<<<< HEAD
    # Request password for Goodwe-power.com
    passwd_text = 'Supply password for ' + str(config.get_goodwe_loginUrl()) + ': '
    password = getpass.getpass( passwd_text)
    goodwe.login( config.get_goodwe_user_id(), password)
 >>>>>>> refs/remotes/zonoskar/master
+=======
+   # Login to Goodwe-power.com
+   goodwe.login( config.get_goodwe_user_id(), config.get_goodwe_password())
+>>>>>>> refs/remotes/origin/pr/3
 
    # Perform main loop
    mainloop( goodwe, pvoutput, csv, process)
