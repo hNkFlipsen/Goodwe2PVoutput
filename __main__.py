@@ -4,7 +4,6 @@ import goodweData
 import pvoutput
 import csvoutput
 import processData
-import processData2
 import time
 import getpass
 import os
@@ -54,10 +53,7 @@ if __name__ == "__main__":
    goodwe = readGoodwe.readGoodwe( config.get_goodwe_url(), config.get_goodwe_loginUrl(), config.get_goodwe_system_id())
    pvoutput = pvoutput.pvoutput( config.get_pvoutput_url(), config.get_pvoutput_system_id(), config.get_pvoutput_api())
    csv = csvoutput.csvoutput( config.get_csv_dir(), 'Goodwe_PV_data')
-   if config.get_spline_fit():
-      process = processData2.processData2( pvoutput)
-   else:
-      process = processData.processData( pvoutput)
+   process = processData.processData( pvoutput)
       
    # Login to Goodwe-power.com
    goodwe.login( config.get_goodwe_user_id(), config.get_goodwe_password())
