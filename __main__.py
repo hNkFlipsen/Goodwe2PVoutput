@@ -15,25 +15,21 @@ def mainloop( goodwe, pvoutput, csv, process):
    while True:
       interval = 4.0*60
       try: # Read Goodwe data from goodwe-power.com
-         r = goodwe.read_data()
+         gw = goodwe.read_sample_data()
       except Exception, arg:
+         interval = 1.0*60
          print "Read data Error: " + str(arg)
       else:
-         try: # Convert the URL data to usable data oject
-            gw = goodweData.goodweData( r)
-         except Exception, arg:
-            print "Convert data Error: " + str(arg)
+         if goodwe.is_online():
+            # write CSV file
+            csv.write_data( gw)
+            process.processSample( gw)
          else:
-            if gw.is_online():
-               # write CSV file
-               csv.write_data( gw)
-               process.processSample( gw)
-            else:
-               # Wait for the inverter to come online
-               print "Inverter is not online: " + gw.to_string()
-               interval = 10.0*60
-               csv.reset()
-	       process.reset()
+            # Wait for the inverter to come online
+            print "Inverter is not online: " + gw.to_string()
+            interval = 10.0*60
+            csv.reset()
+            process.reset()
 	 
       # Wait for the next sample
       print "sleep " + str(interval) + " seconds before next sample"
@@ -50,13 +46,21 @@ if __name__ == "__main__":
    config = goodweConfig.goodweConfig(home+'/.goodwe2pvoutput')
    config.to_string()
 
-   goodwe = readGoodwe.readGoodwe( config.get_goodwe_url(), config.get_goodwe_loginUrl(), config.get_goodwe_system_id())
-   pvoutput = pvoutput.pvoutput( config.get_pvoutput_url(), config.get_pvoutput_system_id(), config.get_pvoutput_api())
+   pvoutput = pvoutput.pvoutput( config.get_pvoutput_url(),
+                                 config.get_pvoutput_system_id(),
+                                 config.get_pvoutput_api())
    csv = csvoutput.csvoutput( config.get_csv_dir(), 'Goodwe_PV_data')
-   process = processData.processData( pvoutput)
-      
+
+   goodwe = readGoodwe.readGoodwe( config.get_goodwe_url(),
+                                   config.get_goodwe_loginUrl(),
+                                   config.get_goodwe_system_id())
    # Login to Goodwe-power.com
    goodwe.login( config.get_goodwe_user_id(), config.get_goodwe_password())
 
+   process = processData.processData( pvoutput)
+
    # Perform main loop
    mainloop( goodwe, pvoutput, csv, process)
+
+
+#---------------- End of file ------------------------------------------------

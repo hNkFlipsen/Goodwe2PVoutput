@@ -1,6 +1,8 @@
 import requests
+import goodweData
+import iGoodwe
 
-class readGoodwe :
+class readGoodwe( iGoodwe.iGoodwe) :
 
    #--------------------------------------------------------------------------
    def __init__(self, url, login_url, station_id):
@@ -12,6 +14,7 @@ class readGoodwe :
       self.m_login_url = login_url
       self.m_station_id = station_id
       self.m_session = None
+      self.gwData = None
       
 
    #--------------------------------------------------------------------------
@@ -24,6 +27,7 @@ class readGoodwe :
 	 
       with requests.Session() as self.m_session:
          p = self.m_session.post( self.m_login_url, data=payload)
+	 print "Sent password " + str(p.status_code)
 	 if p.status_code != 200:
 	    if 'incorrect' in p.text:
 	       print "Incorrect password for user " + str(username)
@@ -36,7 +40,7 @@ class readGoodwe :
 	 
 
    #--------------------------------------------------------------------------
-   def read_data( self):
+   def read_sample_data( self):
    # Read the data. When a failure is found, it is tried upto 3 times. After 
    # that, an error is logged.
    #
@@ -45,15 +49,23 @@ class readGoodwe :
       
       while True:
          try:
-            r = self._read_data( url)
-#	    print r
-            return r
+            sample = self._read_data( url)
+            self.gwData = goodweData.goodweData( sample)
+	    return self.gwData.get_sample()
          except:
             tries += 1
             if tries > 3:
                print "Cannot read data after " + str(tries) + " tries."
                raise ValueError
+
          
+   #--------------------------------------------------------------------------
+   def is_online( self):
+      '''Is online?'''
+      if self.gwData:
+         return self.gwData.is_online()
+      else:
+         return False
       
    #--------------------------------------------------------------------------
    def _read_data( self, url):
@@ -63,3 +75,4 @@ class readGoodwe :
          r = self.m_session.get( url, timeout=20)
       return r.content
                   
+#---------------- End of file ------------------------------------------------
